@@ -10,7 +10,10 @@ export {rootReducer}
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(BaseApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware({
+    serializableCheck: false,
+    immutableCheck: false,
+  }).concat(BaseApi.middleware),
   devTools: true
 })
 
