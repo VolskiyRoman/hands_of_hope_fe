@@ -13,15 +13,23 @@ import {
     DropdownItem,
     WindmillContext,
 } from '@roketid/windmill-react-ui'
+import {logoutThunk} from "../store/auth/logoutThunk";
+import {useRouter} from "next/router";
+import {useDispatch} from "react-redux";
 
 const Header = () => {
     const { mode, toggleMode } = useContext(WindmillContext)
     const { toggleSidebar } = useContext(SidebarContext)
 
-    const [isNotificationsOpen, setNotificationsOpen] = useState(false)
+    const router = useRouter()
+    const dispatch = useDispatch()
+    const handleLogout = () => {
+        dispatch(logoutThunk())
+        router.replace('/login') // redirect to login page
+    }
+
     const [isProfileOpen, setProfileOpen] = useState(false)
 
-    const toggleNotifications = () => setNotificationsOpen(prev => !prev)
     const toggleProfile = () => setProfileOpen(prev => !prev)
 
     return (
@@ -66,10 +74,11 @@ const Header = () => {
                             <OutlineCogIcon className="w-4 h-4 mr-3" aria-hidden="true" />
                             <span>Settings</span>
                         </DropdownItem>
-                        <DropdownItem onClick={() => alert('Log out!')}>
+                        <DropdownItem onClick={handleLogout}>
                             <OutlineLogoutIcon className="w-4 h-4 mr-3" aria-hidden="true" />
-                            <span>Log out</span>
+                            <span>Вийти</span>
                         </DropdownItem>
+
                     </Dropdown>
                 </div>
             </div>

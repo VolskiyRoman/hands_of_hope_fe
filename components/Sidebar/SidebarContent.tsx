@@ -1,23 +1,23 @@
 import Link from 'next/link'
-import routes, { routeIsActive } from 'routes/sidebar'
+import routes, {routeIsActive} from 'routes/sidebar'
 import * as Icons from 'icons'
-import { IIcon } from 'icons'
+import {IIcon} from 'icons'
 import SidebarSubmenu from './SidebarSubmenu'
-import { Button } from '@roketid/windmill-react-ui'
-import { useRouter } from 'next/router'
+import {Button} from '@roketid/windmill-react-ui'
+import {useRouter} from 'next/router'
 
-function Icon({ icon, ...props }: IIcon){
+function Icon({icon, ...props}: IIcon) {
   // @ts-ignore
-  const Icon= Icons[icon]
+  const Icon = Icons[icon]
   return <Icon {...props} />
 }
 
-interface ISidebarContent{
+interface ISidebarContent {
   linkClicked: () => void
 }
 
-function SidebarContent({ linkClicked }: ISidebarContent) {
-  const { pathname } = useRouter();
+function SidebarContent({linkClicked}: ISidebarContent) {
+  const {pathname} = useRouter();
   const appName = process.env.NEXT_PUBLIC_APP_NAME
 
   return (
@@ -34,7 +34,7 @@ function SidebarContent({ linkClicked }: ISidebarContent) {
       <ul>
         {routes.map((route) =>
           route.routes ? (
-            <SidebarSubmenu route={route} key={route.name} linkClicked={linkClicked} />
+            <SidebarSubmenu route={route} key={route.name} linkClicked={linkClicked}/>
           ) : (
             <li className='relative px-6 py-3' key={route.name}>
               <Link
@@ -69,12 +69,6 @@ function SidebarContent({ linkClicked }: ISidebarContent) {
         )}
       </ul>
       <div className="px-6 my-6">
-        <Button>
-          Create account
-          <span className="ml-2" aria-hidden="true">
-            +
-          </span>
-        </Button>
       </div>
     </div>
   )

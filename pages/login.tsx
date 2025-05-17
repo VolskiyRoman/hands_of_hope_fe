@@ -1,62 +1,97 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import {useRouter} from 'next/router'
+import {useForm} from 'react-hook-form'
+import {Button} from '@roketid/windmill-react-ui'
 
-import { Label, Input, Button, WindmillContext } from '@roketid/windmill-react-ui'
-import { GithubIcon, TwitterIcon } from 'icons'
+import RHFTextField from 'components/HookForm/RHFTextField'
+import {useLoginMutation} from '../api/extendedApi'
+import {FormProvider} from '../components/HookForm'
+import {AuthRequest} from '../api/types/auth'
+import {localStorageService} from '../utils/localStorage'
+import StaticSideImage from '../components/StaticSideImage'
 
-function LoginPage() {
-  const imgSource = '/assets/img/logo.png'
+type LoginFormValues = {
+  email: string
+  password: string
+}
+
+export default function LoginPage() {
+  const methods = useForm<LoginFormValues>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
+
+  const router = useRouter()
+  const {handleSubmit} = methods
+  const [login, {isLoading}] = useLoginMutation()
+  const [formError, setFormError] = React.useState('')
+
+  const onSubmit = async (data: AuthRequest) => {
+    setFormError('')
+    try {
+      const response = await login(data).unwrap()
+      localStorageService.setAccessToken(response.access)
+      localStorageService.setRefreshToken(response.refresh)
+      router.replace('/')
+    } catch (error: any) {
+      if (error?.status === 401 && error?.data?.detail) {
+        setFormError('Помилка входу')
+      } else {
+        setFormError('Сталася помилка. Спробуйте ще раз.')
+      }
+    }
+  }
 
   return (
-    <div className='flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900'>
-      <div className='flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800'>
-        <div className='flex flex-col overflow-y-auto md:flex-row'>
-          <div className='relative h-32 md:h-auto md:w-1/2'>
-            <Image
-              aria-hidden='true'
-              className='hidden object-cover w-full h-full'
-              src={imgSource}
-              alt='Office'
-              layout='fill'
-            />
-          </div>
-          <main className='flex items-center justify-center p-6 sm:p-12 md:w-1/2'>
-            <div className='w-full'>
-              <h1 className='mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200'>
-                Login
+    <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+      <div className="flex-1 h-full max-w-5xl mx-auto bg-white rounded-xl shadow-xl dark:bg-gray-800 min-h-[400px]">
+        <div className="flex flex-col overflow-y-auto md:flex-row h-full">
+          <StaticSideImage
+            src="/assets/img/logo.png"
+            alt="Login background"
+            className="hidden md:block w-[400px] min-h-[650px]"
+          />
+          <main className="flex items-center justify-center p-8 sm:p-12 md:w-1/2">
+            <div className="w-full max-w-md">
+              <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
+                Увійти
               </h1>
-              <Label>
-                <span>Email</span>
-                <Input
-                  className='mt-1'
-                  type='email'
-                  placeholder='john@doe.com'
-                />
-              </Label>
 
-              <Label className='mt-4'>
-                <span>Password</span>
-                <Input
-                  className='mt-1'
-                  type='password'
-                  placeholder='***************'
+              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+                <RHFTextField
+                  name="email"
+                  label="Електронна пошта"
+                  placeholder="name@example.com"
+                  type="email"
                 />
-              </Label>
 
-              <Link href='/' passHref={true}>
-                <Button className='mt-4' block>
-                  Log in
+                <RHFTextField
+                  name="password"
+                  label="Пароль"
+                  placeholder="***************"
+                  type="password"
+                  className="mt-4"
+                />
+
+                <Button className="mt-4" block type="submit" disabled={isLoading}>
+                  Увійти
                 </Button>
-              </Link>
 
-              <hr className='my-8' />
-              <p className='mt-4'>
-              </p>
-              <p className='mt-1'>
-                <Link href='/create-account'>
-                  <a className='text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline'>
-                    Create account
+                {formError && (
+                  <div className="mt-3 text-sm font-medium text-red-600 dark:text-red-400 text-center">
+                    {formError}
+                  </div>
+                )}
+              </FormProvider>
+
+              <hr className="my-8" />
+              <p className="text-center">
+                <Link href="/create-account">
+                  <a className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline">
+                    Створити обліковий запис
                   </a>
                 </Link>
               </p>
@@ -65,7 +100,5 @@ function LoginPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
-
-export default LoginPage
