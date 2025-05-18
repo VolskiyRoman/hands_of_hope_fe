@@ -1,5 +1,10 @@
 import { Input, Label } from '@roketid/windmill-react-ui'
-import { useFormContext, FieldValues, Path } from 'react-hook-form'
+import {
+  useFormContext,
+  FieldValues,
+  Path,
+  RegisterOptions,
+} from 'react-hook-form'
 import React from 'react'
 
 type RHFTextFieldProps<T extends FieldValues> = {
@@ -8,6 +13,7 @@ type RHFTextFieldProps<T extends FieldValues> = {
   type?: string
   className?: string
   placeholder?: string
+  validation?: RegisterOptions<T, Path<T>>  // ✅ Add this
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 const RHFTextField = <T extends FieldValues>({
@@ -16,11 +22,12 @@ const RHFTextField = <T extends FieldValues>({
                                                type = 'text',
                                                className,
                                                placeholder,
+                                               validation,
                                                ...rest
                                              }: RHFTextFieldProps<T>) => {
   const {
     register,
-    formState: { errors }
+    formState: { errors },
   } = useFormContext<T>()
 
   const fieldError = errors[name]
@@ -30,7 +37,7 @@ const RHFTextField = <T extends FieldValues>({
     <Label className="w-full">
       <span>{label}</span>
       <Input
-        {...register(name)}
+        {...register(name, validation)}
         type={type}
         placeholder={placeholder}
         className={`mt-1 w-full ${errorMessage ? 'border-red-500' : ''} ${className || ''}`}

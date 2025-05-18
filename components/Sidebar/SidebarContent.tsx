@@ -3,7 +3,6 @@ import routes, {routeIsActive} from 'routes/sidebar'
 import * as Icons from 'icons'
 import {IIcon} from 'icons'
 import SidebarSubmenu from './SidebarSubmenu'
-import {Button} from '@roketid/windmill-react-ui'
 import {useRouter} from 'next/router'
 
 function Icon({icon, ...props}: IIcon) {
@@ -22,6 +21,9 @@ function SidebarContent({linkClicked}: ISidebarContent) {
 
   return (
     <div className="text-gray-500 dark:text-gray-400">
+      <h1 className="pl-5 pt-5 text-xl font-bold text-gray-800 dark:text-white tracking-wide">
+        HANDS OF HOPE
+      </h1>
       <Link href="/#" passHref>
         <div className='ml-6 py-6'>
           <a

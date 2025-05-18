@@ -25,40 +25,35 @@ export function routeIsActive (pathname: String, route: IRoute): boolean {
 
 const routes: IRoute[] = [
   {
-    path: '/', // the url
-    icon: 'HomeIcon', // the component being exported from icons/index.js
-    name: 'Dashboard', // name that appear in Sidebar
+    path: '/',
+    icon: 'HomeIcon',
+    name: 'Головна',
     exact: true,
   },
   {
     path: '/forms',
     icon: 'FormsIcon',
-    name: 'Forms',
-  },
-  {
-    path: '/cards',
-    icon: 'CardsIcon',
-    name: 'Cards',
+    name: 'Форми',
   },
   {
     path: '/charts',
     icon: 'ChartsIcon',
-    name: 'Charts',
+    name: 'Графіки',
   },
   {
     path: '/buttons',
     icon: 'ButtonsIcon',
-    name: 'Buttons',
+    name: 'Кнопки',
   },
   {
     path: '/modals',
     icon: 'ModalsIcon',
-    name: 'Modals',
+    name: 'Модальні вікна',
   },
   {
     path: '/tables',
     icon: 'TablesIcon',
-    name: 'Tables',
+    name: 'Таблиці',
   },
   {
     path: '/articles',
@@ -66,20 +61,25 @@ const routes: IRoute[] = [
     name: 'Корисні статті',
   },
   {
+    path: '/help',
+    icon: 'CardsIcon',
+    name: 'Допомога',
+  },
+  {
     icon: 'PagesIcon',
-    name: 'Pages',
+    name: 'Сторінки',
     routes: [
       {
         path: '/login',
-        name: 'Login',
+        name: 'Увійти',
       },
       {
         path: '/create-account',
-        name: 'Create account',
+        name: 'Створити акаунт',
       },
       {
         path: '/forgot-password',
-        name: 'Forgot password',
+        name: 'Забув пароль',
       },
       {
         path: '/404',
@@ -87,7 +87,7 @@ const routes: IRoute[] = [
       },
       {
         path: '/blank',
-        name: 'Blank',
+        name: 'Пуста сторінка',
       },
     ],
   },

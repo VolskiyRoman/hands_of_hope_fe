@@ -2,7 +2,6 @@ import React from 'react'
 import Layout from 'containers/Layout'
 import InfoCard from 'components/Cards/InfoCard'
 import { articles } from 'data/articles'
-import PageTitle from 'components/Typography/PageTitle'
 
 function ArticlesPage() {
     return (
