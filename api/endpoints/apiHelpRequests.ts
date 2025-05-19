@@ -53,5 +53,10 @@ export const apiHelpRequests = {
         method: 'DELETE',
       }),
     }),
+
+    // GET /help-request/my_activity/
+    getMyHelpActivity: builder.query<{ results: HelpRequest[] }, void>({
+      query: () => `${HELP_REQUESTS.list()}my_activity/`,
+    }),
   }),
 }

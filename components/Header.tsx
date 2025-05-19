@@ -67,7 +67,7 @@ const Header = () => {
                         isOpen={isProfileOpen}
                         onClose={() => setProfileOpen(false)}
                       >
-                          <DropdownItem tag="a" href="#">
+                          <DropdownItem onClick={() => router.push('/user')}>
                               <OutlinePersonIcon className="w-4 h-4 mr-3" aria-hidden="true" />
                               <span>Профіль</span>
                           </DropdownItem>

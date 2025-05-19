@@ -3,7 +3,7 @@ import { TagTypes } from 'utils/rtk-tags'
 import {logoutAction} from "../../utils/auth";
 
 export const logoutThunk = () => (dispatch: any) => {
-  logoutAction() // safe: just localStorage
+  logoutAction()
   dispatch(extendedApi.util.resetApiState())
   dispatch(extendedApi.util.invalidateTags([{ type: TagTypes.CURRENT_USER }]))
 }

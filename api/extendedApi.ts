@@ -19,11 +19,13 @@ export const {
 
   // Users
   useGetCurrentUserQuery,
+  useUpdateUserMutation,
 
   // Help Requests
   useGetHelpRequestsQuery,
   useGetHelpRequestByIdQuery,
   useCreateHelpRequestMutation,
+  useGetMyHelpActivityQuery,
   useUpdateHelpRequestMutation,
   usePatchHelpRequestMutation,
   useDeleteHelpRequestMutation,

@@ -1,80 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Layout from 'containers/Layout'
-import { useGetCurrentUserQuery, useUpdateUserMutation } from 'api/extendedApi'
-import { useForm } from 'react-hook-form'
-import { Button, Label, Input } from '@roketid/windmill-react-ui'
-
-type UpdateFormValues = {
-  first_name: string
-  last_name: string
-}
+import { useGetCurrentUserQuery, useGetMyHelpActivityQuery } from 'api/extendedApi'
+import MiniHelpCard from 'components/Cards/MiniHelpCard'
+import ChangeUserNameModal from 'components/Modals/ChangeUserNameModal'
 
 const UserProfilePage = () => {
-  const { data: user, isLoading } = useGetCurrentUserQuery({})
-  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation()
+  const { data: user } = useGetCurrentUserQuery({})
+  const { data, isLoading } = useGetMyHelpActivityQuery()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UpdateFormValues>({
-    defaultValues: {
-      first_name: user?.first_name || '',
-      last_name: user?.last_name || '',
-    },
-    values: {
-      first_name: user?.first_name || '',
-      last_name: user?.last_name || '',
-    }
-  })
-
-  const onSubmit = async (data: UpdateFormValues) => {
-    try {
-      await updateUser(data).unwrap()
-      alert('Інформацію оновлено успішно.')
-    } catch (err) {
-      console.error('❌ Помилка оновлення:', err)
-      alert('Помилка оновлення користувача.')
-    }
-  }
+  const [isModalOpen, setModalOpen] = useState(false)
 
   return (
     <Layout>
-      <div className="max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded shadow">
-        <h1 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Профіль користувача</h1>
+      {/* Profile Section */}
+      <div className="bg-white dark:bg-gray-800 p-6 rounded shadow mb-6 border dark:border-gray-700">
+        <h1 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Профіль користувача</h1>
 
-        {isLoading ? (
-          <p className="text-gray-600 dark:text-gray-300">Завантаження...</p>
-        ) : (
-          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            <Label>
-              Імʼя
-              <Input
-                {...register('first_name', { required: 'Це поле обовʼязкове' })}
-                className={errors.first_name ? 'border-red-500' : ''}
-              />
-              {errors.first_name && (
-                <p className="text-xs text-red-600 mt-1">{errors.first_name.message}</p>
-              )}
-            </Label>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-2 text-sm text-gray-800 dark:text-gray-200">
+            <p>👤 {user?.first_name} {user?.last_name}</p>
+            <p>📧 {user?.email}</p>
+          </div>
 
-            <Label>
-              Прізвище
-              <Input
-                {...register('last_name', { required: 'Це поле обовʼязкове' })}
-                className={errors.last_name ? 'border-red-500' : ''}
-              />
-              {errors.last_name && (
-                <p className="text-xs text-red-600 mt-1">{errors.last_name.message}</p>
-              )}
-            </Label>
+          <div className="mt-4 sm:mt-0 flex gap-2">
+            <button
+              onClick={() => setModalOpen(true)}
+              className="px-4 py-2 bg-purple-600 text-white text-sm rounded hover:bg-purple-700"
+            >
+              Змінити імʼя
+            </button>
+          </div>
+        </div>
+      </div>
 
-            <Button type="submit" block disabled={isUpdating}>
-              {isUpdating ? 'Оновлення...' : 'Зберегти зміни'}
-            </Button>
-          </form>
+      {/* Activity Section */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Моя активність</h2>
+
+        {isLoading && <p className="text-gray-500 dark:text-gray-400">Завантаження...</p>}
+
+        {data?.results?.map((item) => (
+          <MiniHelpCard
+            key={item.id}
+            id={item.id}
+            type={item.type}
+            location={item.location}
+            created={item.created}
+            viewLink={`/help/${item.id}`}
+          />
+        ))}
+
+        {data?.results?.length === 0 && (
+          <p className="text-sm text-gray-500 dark:text-gray-400">Активність відсутня.</p>
         )}
       </div>
+
+      {/* Modal to update name */}
+      <ChangeUserNameModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
     </Layout>
   )
 }

@@ -31,39 +31,19 @@ const routes: IRoute[] = [
     exact: true,
   },
   {
-    path: '/forms',
-    icon: 'FormsIcon',
-    name: 'Форми',
-  },
-  {
-    path: '/charts',
-    icon: 'ChartsIcon',
-    name: 'Графіки',
-  },
-  {
-    path: '/buttons',
-    icon: 'ButtonsIcon',
-    name: 'Кнопки',
-  },
-  {
-    path: '/modals',
-    icon: 'ModalsIcon',
-    name: 'Модальні вікна',
-  },
-  {
-    path: '/tables',
-    icon: 'TablesIcon',
-    name: 'Таблиці',
-  },
-  {
     path: '/articles',
-    icon: 'TablesIcon',
+    icon: 'ButtonsIcon',
     name: 'Корисні статті',
   },
   {
     path: '/help',
-    icon: 'CardsIcon',
+    icon: 'FormsIcon',
     name: 'Допомога',
+  },
+  {
+    path: '/user',
+    icon: 'CardsIcon',
+    name: 'Профіль',
   },
   {
     icon: 'PagesIcon',
@@ -78,16 +58,8 @@ const routes: IRoute[] = [
         name: 'Створити акаунт',
       },
       {
-        path: '/forgot-password',
-        name: 'Забув пароль',
-      },
-      {
         path: '/404',
         name: '404',
-      },
-      {
-        path: '/blank',
-        name: 'Пуста сторінка',
       },
     ],
   },

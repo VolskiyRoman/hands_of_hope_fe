@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { Button } from '@roketid/windmill-react-ui'
+import {helpLabels} from "../../utils/helpLabels";
 
 type HelpCardProps = {
   type: string
@@ -11,21 +12,6 @@ type HelpCardProps = {
   created: string
   icon: JSX.Element
   viewLink?: string
-}
-
-const typeLabels: Record<string, string> = {
-  shelter: 'Притулок',
-  evacuation: 'Евакуація',
-  medicine: 'Медикаменти',
-  food: 'Їжа',
-  psychological: 'Психологічна допомога',
-  clothes: 'Одяг',
-  transport: 'Транспорт',
-  info_support: 'Інформаційна підтримка',
-  legal: 'Юридична допомога',
-  repair: 'Ремонт',
-  volunteer: 'Волонтерство',
-  other: 'Інше',
 }
 
 const HelpCard: React.FC<HelpCardProps> = ({
@@ -39,10 +25,10 @@ const HelpCard: React.FC<HelpCardProps> = ({
                                              viewLink,
                                            }) => {
   const router = useRouter()
-  const translatedType = typeLabels[type] || 'Невідомо'
+  const translatedType = helpLabels[type] || 'Невідомо'
 
   return (
-    <div className="p-4 border border-gray-200 dark:border-gray-700 rounded shadow space-y-2 bg-white dark:bg-purple-600">
+    <div className="p-4 border border-gray-200 dark:border-gray-700 rounded shadow space-y-2 bg-white dark:bg-gray-700">
       <div className="flex items-center gap-2">
         {icon}
         <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">{translatedType}</h2>
@@ -59,7 +45,7 @@ const HelpCard: React.FC<HelpCardProps> = ({
           <Button
             size="small"
             onClick={() => router.push(viewLink)}
-            className="bg-gray-700 hover:bg-gray-600 text-white dark:bg-gray-600 dark:hover:bg-gray-500"
+            className="bg-purple-600 hover:bg-purple-700 text-white "
           >
             Переглянути
           </Button>
