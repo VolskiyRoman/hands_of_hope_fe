@@ -3,6 +3,7 @@ import { apiAuth } from 'api/endpoints/apiAuth'
 import { apiUsers } from 'api/endpoints/apiUsers'
 import { apiHelpRequests } from "./endpoints/apiHelpRequests";
 import {apiHelpReplies} from "./endpoints/apiHelpReplies";
+import {apiChat} from "./endpoints/apiChat";
 
 export const extendedApi = BaseApi.injectEndpoints({
   endpoints: builder => ({
@@ -10,6 +11,7 @@ export const extendedApi = BaseApi.injectEndpoints({
     ...apiUsers.endpoints(builder),
     ...apiHelpRequests.endpoints(builder),
     ...apiHelpReplies.endpoints(builder),
+    ...apiChat.endpoints(builder),
   }),
 })
 export const {
@@ -37,4 +39,7 @@ export const {
   useUpdateHelpReplyMutation,
   usePatchHelpReplyMutation,
   useDeleteHelpReplyMutation,
+
+  //chat
+  useSendChatMessageMutation
 } = extendedApi

@@ -27,3 +27,7 @@ export const HELP_REPLIES = {
   patch: (id: number | string) => `/help-replies/${id}/`, // PATCH
   delete: (id: number | string) => `/help-replies/${id}/`, // DELETE
 }
+
+export const CHAT = {
+  send: () => 'chat/',
+};

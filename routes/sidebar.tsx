@@ -46,6 +46,11 @@ const routes: IRoute[] = [
     name: 'Профіль',
   },
   {
+    path: '/chat',
+    icon: 'ChatIcon',
+    name: 'Чат',
+  },
+  {
     icon: 'PagesIcon',
     name: 'Сторінки',
     routes: [
