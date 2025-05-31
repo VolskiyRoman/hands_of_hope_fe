@@ -53,7 +53,7 @@ export default function CreateAccount() {
 
       localStorageService.setAccessToken(response.access)
       localStorageService.setRefreshToken(response.refresh)
-      router.replace('/')
+      router.push('/login')
     } catch (err: any) {
       if (err?.status === 400 && typeof err.data === 'object') {
         Object.entries(err.data).forEach(([field, messages]) => {
